@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+
+
+
+{% block content %}
+
+<section class="container-fuid">
+    <div class="container justify-content-center">
+        <form method="POST" action="/vista/create" class="coll-11 p-4 my-6 text-dark mx-auto">
+            <h1 class="text-primary text-center my-4">Una nueva Asesoría?</h1>
+            {% with messages = get_flashed_messages(category_filter=['validar_asesoria']) %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                <strong>Revisa las sugerencias!!!</strong>
+                {% for message in messages %}
+                <p>{{message}}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <div class="d-flex justify-content-center align-items-center ">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="tema">Tema:</label>
+                        <input type="text" id="tema" name="tema" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" min="{{future_date}}" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duracion">Duración (horas):</label>
+                        <input type="number" name="duracion" min="1" max="8" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nota">Nota:</label>
+                        <textarea  class="form-control" id="nota" name="nota" cols="20" rows="4" maxlength="50"></textarea>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="tutor_id">Tutor:</label>
+                        <select id="tutor_id" name="tutor_id" class="form-control" required>
+                            <option value="" disabled selected>Seleccione un tutor</option>
+                            {% for usuario in usuarios %}
+                            <option value="{{ usuario.id }}">{{ usuario.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <!-- Campo oculto para enviar el ID del usuario logueado -->
+                        <input type="hidden" name="usuario_id" value="{{session['usuario_id']}}">
+                        
+                        <div class="d-flex justify-content-center align-items-center col-12 text-dark">
+                            <!-- Botón para enviar el formulario -->
+                            <button type="submit" class="btn btn-success mt-3">Agregar</button>
+                            <a href="{{url_for('usuarios.dashboard')}}" class="btn btn-secondary mt-3 ms-2"> Cancelar</a>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            
+        </form>
+        <br>
+    </div>
+    
+
+</section>
+
+
+{% endblock %}
+
+
+
